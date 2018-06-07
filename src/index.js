@@ -234,6 +234,20 @@ let formatSeriesData = function (data, keyType) {
   return r;
 };
 
+let formatColumnData = function (data) {
+  let parsedData = [];
+
+  Object.keys(data).forEach(key => {
+    if(isDate(data[key])) {
+      parsedData.push(new Date(data[key]));
+    } else {
+      parsedData.push(toFloat(data[key]));
+    }
+  });
+
+  return parsedData;
+};
+
 function detectDiscrete(series) {
   let i, j, data;
   for (i = 0; i < series.length; i++) {
@@ -302,6 +316,27 @@ function processSimple(chart) {
   for (i = 0; i < perfectData.length; i++) {
     perfectData[i] = [toStr(perfectData[i][0]), toFloat(perfectData[i][1])];
   }
+  return perfectData;
+}
+
+function processCombo(chart) {
+  let perfectData = toArr(chart.rawData), i;
+
+  for (i = 0; i < perfectData.length; i++) {
+    if(i === 0) {
+      let keyList = [];
+
+      Object.keys(perfectData[0]).forEach(key => {
+        keyList.push(key);
+      });  
+
+      perfectData.unshift(keyList);
+      i++;
+    }
+
+    perfectData[i] = formatColumnData(perfectData[i]);
+  }
+
   return perfectData;
 }
 
@@ -537,6 +572,16 @@ class Timeline extends Chart {
   }
 }
 
+class ComboChart extends Chart {
+  __processData() {
+    return processCombo(this);
+  }
+
+  __chartName() {
+    return "ComboChart";
+  }
+}
+
 const Chartkick = {
   LineChart: LineChart,
   PieChart: PieChart,
@@ -547,6 +592,7 @@ const Chartkick = {
   ScatterChart: ScatterChart,
   BubbleChart: BubbleChart,
   Timeline: Timeline,
+  ComboChart: ComboChart,
   charts: {},
   configure: function (options) {
     for (let key in options) {

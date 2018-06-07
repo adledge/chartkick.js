@@ -282,6 +282,47 @@ export default class {
     });
   }
 
+  renderComboChart(chart) {
+    this.waitForLoaded(chart, () => {
+      let chartOptions = {
+        legend: "none",
+        colorAxis: {
+          colors: chart.options.colors || ["#f6c7b6", "#ce502d"]
+        },
+        vAxes: {
+          0: {
+            viewWindowMode:"explicit",
+            gridlines: {color: "transparent"},
+          },
+          1: {
+            gridlines: {color: "transparent"},
+            viewWindow: {
+              max:100,
+              min:0
+            },
+            format: "#.#'%'"
+
+          },
+        },
+        seriesType: "bars",
+        series: {
+          0: {
+            targetAxisIndex:0
+          },
+          1:  {
+            targetAxisIndex:1,
+            type: "line"
+          },
+        }
+      };
+
+      let options = merge(merge(defaultOptions, chartOptions), chart.options.library || {});      
+      let data = this.library.visualization.arrayToDataTable(chart.data);
+
+      this.drawChart(chart, "ComboChart", data, options);
+    });
+  }
+
   destroy(chart) {
     if (chart.chart) {
       chart.chart.clearChart();
@@ -290,7 +331,7 @@ export default class {
 
   drawChart(chart, type, data, options) {
     this.destroy(chart);
-
+    
     if (chart.options.eject) {
       chart.element.innerText = "var data = new google.visualization.DataTable(" + data.toJSON() + ");\nvar chart = new google.visualization." + type + "(element);\nchart.draw(data, " + JSON.stringify(options) + ");";
     } else {

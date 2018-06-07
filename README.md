@@ -64,6 +64,12 @@ Timeline - *Google Charts*
 new Chartkick.Timeline("chart-1", [["Washington", "1789-04-29", "1797-03-03"], ["Adams", "1797-03-03", "1801-03-03"]])
 ```
 
+Combo Chart - *Google Charts*
+
+```javascript
+new Chartkick.ComboChart("chart-1", [{"date":"2018-03-01T00:00:00.000Z","Flight":"134","Used fuel":"47.52"}, {"date":"2018-03-02T00:00:00.000Z","Flight":"352","Used fuel":"80.57"}])
+```
+
 Multiple series
 
 ```javascript

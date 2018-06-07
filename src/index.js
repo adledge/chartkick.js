@@ -239,7 +239,7 @@ let formatColumnData = function (data) {
 
   Object.keys(data).forEach(key => {
     if(isDate(data[key])) {
-      parsedData.push(new Date(data[key]));
+      parsedData.push(toDate(data[key]));
     } else {
       parsedData.push(toFloat(data[key]));
     }

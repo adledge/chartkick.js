@@ -582,6 +582,16 @@ class ComboChart extends Chart {
   }
 }
 
+class PolarChart extends Chart {
+  __processData() {
+    return processSeries(this, "polar");
+  }
+
+  __chartName() {
+    return "PolarChart";
+  }
+}
+
 const Chartkick = {
   LineChart: LineChart,
   PieChart: PieChart,
@@ -593,6 +603,7 @@ const Chartkick = {
   BubbleChart: BubbleChart,
   Timeline: Timeline,
   ComboChart: ComboChart,
+  PolarChart: PolarChart,
   charts: {},
   configure: function (options) {
     for (let key in options) {

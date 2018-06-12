@@ -511,6 +511,41 @@ export default class {
     this.renderScatterChart(chart, "bubble");
   }
 
+  renderPolarChart(chart) {
+    let options = merge({}, baseOptions);
+
+    if ("legend" in chart.options) {
+      hideLegend(options, chart.options.legend);
+    }
+
+    if (chart.options.title) {
+      setTitle(options, chart.options.title);
+    }
+
+    options = merge(options, chart.options.library || {});
+    setFormatOptions(chart, options, "polarArea");
+
+    let labels = [];
+    let values = [];
+    Object.keys(chart.rawData[0]).forEach((point) => {
+      labels.push(point);
+      values.push(chart.rawData[0][point]);
+    });
+
+    let dataset = {
+      data: values,
+      backgroundColor: chart.options.colors || defaultColors
+    };
+    dataset = merge(dataset, chart.options.dataset || {});
+
+    let data = {
+      labels: labels,
+      datasets: [dataset]
+    };
+
+    this.drawChart(chart, "polarArea", data, options);
+  }
+
   destroy(chart) {
     if (chart.chart) {
       chart.chart.destroy();

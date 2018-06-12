@@ -512,7 +512,7 @@ export default class {
   }
 
   renderPolarChart(chart) {
-    let options = merge({}, baseOptions);
+    let options = jsOptions(chart, chart.options);
 
     if ("legend" in chart.options) {
       hideLegend(options, chart.options.legend);

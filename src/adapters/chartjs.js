@@ -527,10 +527,12 @@ export default class {
 
     let labels = [];
     let values = [];
-    Object.keys(chart.rawData[0]).forEach((point) => {
-      labels.push(point);
-      values.push(chart.rawData[0][point]);
-    });
+    if(chart.rawData[0]) {
+      Object.keys(chart.rawData[0]).forEach(function (point) {
+        labels.push(point);
+        values.push(chart.rawData[0][point]);
+      });
+    }
 
     let dataset = {
       data: values,
